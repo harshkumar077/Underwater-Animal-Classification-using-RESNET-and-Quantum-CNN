@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeaDectective</title>
+    <link rel="stylesheet" href="/static/css/mainstyle.css">
+    <link rel="stylesheet" href="/static/css/popupContact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="/static/images/icons/sharki.png"
+        type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 1000%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo-container">
+                <!-- Replace 'your-logo.png' with the path to your logo image -->
+                <img src="/static/images/icons/vecteezy_starfish-animals-ocean_9347309.png" alt="Logo" class="logo">
+            </div>
+            <div class="project-name">
+                <h1>DeepSeaDetective</h1>
+            </div>
+            <div class="menu-container">
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown()">☰</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a class="btn-instruct" href="#instruct">Instruction 📜</a>
+                        <a class="btn-aboutAlgo" href="#aboutAlgo">About Algorithm 🤖</a>
+                        <a class="btn-Feedback" href="#btn-feedback">Feedback 💡</a>
+                        <a class="btn-contact" href="#contact">Contact ☎️</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+    <!-- Rulebook Modal -->
+<div class="modal1">
+        <button class="close-modal1">&times;</button>
+        <h1>📜 Instructions</h1>
+        <div class="rulebookStatements">
+            <ol>
+                <li>Click on the "Add File" button in the image upload area to select an image from your device</li>
+                <li>Click on the "Classify Image" button to start the classification process.</li>
+                <li>After classification, you can interact with the chatbot to get more details about the
+                    predicted animal.</li>
+                <li>If you want to know more specific details or have other questions, you may fill in the "Image
+                    Identification" and "Image Information" fields to get more precise data related to the
+                    classified image.</li>
+                <li>After you're done with the classification and interaction, you can reset the application to its
+                    initial state by clicking the "RESET" button</li>
+                <li>You can continue to interact with the chatbot even after classification to ask additional questions
+                    about underwater life or to classify another image.</li>
+
+            </ol>
+            <!-- Rulebook content here -->
+            <!-- ajdoifjao o dofih a iadfh ah f[ aiodf a] -->
+        </div>
+    </div>
+    <div class="modal2 ">
+        <button class="close-modal2">&times;</button>
+        <h1>🤖 Algorithm </h1>
+        <div class="rulebookStatements">
+            Our state-of-the-art system marries the power of classical deep learning and quantum computation, utilizing
+            ResNet-50 and Inception Net enhanced with quantum layers for superior underwater animal classification. The
+            innovative integration of qubits allows complex pattern detection beyond classical constraints. To ensure
+            robustness, we employ dropout strategies before the final dense layer that determines the most accurate
+            classification from 23 classes. Complementing this, we've embedded a GPT-2-based chatbot, enriched with
+            knowledge of marine life, to interactively provide users with detailed, approachable information about the
+            classified species. This synthesis of quantum-augmented neural networks and AI-driven communication offers
+            an unparalleled user experience in the marine biology domain.
+        </div>
+    </div>
+    <div class="modal3 ">
+        <button  class="close-modal3">&times;</button>
+        <h1>💡Feedback</h1>
+        <div class="rulebookStatements">
+            <iframe src=" "style="width: 100%; height:100%"  frameborder="0"></iframe>
+        </div>
+    </div>
+    <div class="modal4 ">
+        <button class="close-modal4">&times;</button>
+        <h1>☎️ Contact Us</h1>
+        <div class="rulebookStatements">
+            <iframe src="/templates/popupContact.html" style="width: 70%;" frameborder="0"></iframe>
+        </div>
+    </div>
+    <div class="modal5 hidden">
+        <button class="close-modal5">&times;</button>
+        <h1>📌 Map</h1>
+        <div class="rulebookStatements" id = "s">
+             <div id = "MA">-->
+                         <div id="map"></div>
+                     </div>
+        </div>
+    </div>
+    <div class="overlay hidden"></div>
+
+    <section class="home">
+        <div class="video-class">
+            <video class="video-slide " src="/static/videos/vid-1.mp4" autoplay muted loop></video>
+            <video class="video-slide" src="/static/videos/vid-2.mp4" autoplay muted loop></video>
+            <video class="video-slide " src="/static/videos/vid-3.mp4" autoplay muted loop></video>
+            <video class="video-slide active" src="/static/videos/vid-4.mp4" autoplay muted loop></video>
+            <video class="video-slide" src="/static/videos/vid-5.mp4" autoplay muted loop></video>
+<!--            <video class="video-slide" src="/static/videos/vid-6.mp4" autoplay muted loop></video>-->
+
+
+        </div>
+<!--<form id="upload-form" method="post" enctype="multipart/form-data" target="hidden-iframe">-->
+        <div id="upload-section">
+    <label class="filelabel">
+        <i class="fa-solid fa-paperclip"></i>
+        <span class="title">Add File</span>
+        <input class="FileUpload1" id="image-upload" name="booking-attachment" type="file" style="width:0px; height:0px"   />
+    </label>
+    <div class="button-container">
+        <button type="button" onclick="classifyImage()">Classify Image</button>
+    </div>
+        </div>
+<!--</form>-->
+<!--<iframe id="hidden-iframe" name="hidden-iframe" style="display: none;"></iframe>-->
+<div class="class-sec invis" id="classification-section">
+    <h2>Image Classification:</h2>
+    <p id="classification-result">Classification result will appear here.</p>
+    <img id="classified-image" src="#" alt="Classified Image">
+</div>
+
+<!--        <div id="upload-section">-->
+<!--             <input type="file" id="image-upload" accept="image/*">-->
+<!--            <label class="filelabel">-->
+<!--                <i class="fa-solid fa-paperclip"></i>-->
+<!--                <span class="title">-->
+<!--                    Add File-->
+<!--                </span>-->
+<!--                <input class="FileUpload1" id="FileInput" name="booking_attachment" type="file" />-->
+<!--            </label>-->
+
+<!--            <div class="button-container">-->
+<!--                <button onclick="classifyImage()">Classify Image</button>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; inspired by this pen https://codepen.io/HectorLeon/pen/akEONZ &ndash;&gt;-->
+
+<!--        </div>-->
+
+<!--        <section id="upload-section">-->
+<!--        <input type="file" id="image-upload" accept="image/*">-->
+<!--        <button onclick="classifyImage()">Classify Image</button>-->
+<!--    </section>-->
+
+<!--        <div class="class-sec invis" id="classification-section">-->
+<!--            <h2>Image Classification: Turtle</h2>-->
+<!--            <img id="imglol"-->
+<!--                src="https://media.istockphoto.com/id/504241856/photo/green-turtle-approaching-water-surface.jpg?s=612x612&w=0&k=20&c=Y3oadGWN-W4mj3676Ra8lAoJcdI9zxrlKtWwq-jVmIc="-->
+<!--                alt="Green Turtle">-->
+<!--        </div>-->
+<!--            <div class="class-sec invis" id="classification-section">-->
+<!--    <h2 id="classification-result">Image Classification:</h2>-->
+<!--    <img id="classified-image" src="#" alt="Classified Image">-->
+<!--</div>-->
+
+        <!-- <section id="classification-section">
+        <h2>Image Classification: Turtle</h2>
+        <img id="imglol"
+            src="https://media.istockphoto.com/id/504241856/photo/green-turtle-approaching-water-surface.jpg?s=612x612&w=0&k=20&c=Y3oadGWN-W4mj3676Ra8lAoJcdI9zxrlKtWwq-jVmIc="
+            alt="" srcset=""> -->
+        <!-- <p id="classification-result">Classification result will appear here.</p> -->
+        <!-- </section> -->
+        <div class="imginf-sect invis" id="image-info-section">
+            <div class="imginf-sect-text">
+                <h2>Image Identification Probability:</h2>
+            </div>
+            <div class="right-section1">
+                <div id="probability-result"></div>
+<!--                <h4><span></span></h4>-->
+            </div>
+        </div>
+
+
+        <div class="iden-sec invis" id="identification-section">
+            <h2>Image Information:</h2>
+            <div class="right-section">
+                <div class="img-ident-about">
+                    <p id="img-ident-about"><span>About:</span></p>
+                </div>
+                <div class="img-ident-type">
+                    <p id = "location_result"><span></span></p>
+                    <button id = "show_map">Show Map</button>
+<!--                     <div id = "MA">-->
+<!--                         <div id="map"></div>-->
+<!--                     </div>-->
+                </div>
+            </div>
+        </div>
+
+<!--        reset button-->
+        <div class="reset-btn  invis">
+        <button onclick="clearResult()" id="result" class="btn delete-btn">
+            Reset
+            <span class="material-icons">close</span>
+        </button>
+
+     </div>
+
+        <!-- <section id="identification-section">
+        <h2>Image Identification</h2> -->
+        <!-- <p id="classification-result">Identification result will appear here.</p> -->
+        <!-- </section> -->
+
+
+        <!-- <section id="image-info-section">
+        <h2>Image Information</h2>
+        <img id="image-preview" alt="Uploaded Image">
+    </section> -->
+
+        <!-- <section id="know-more-section">
+        <button type="button">
+            <p>Click Here To Know More</p>
+        </button>
+        <p>Additional information about the image.</p>
+    </section> -->
+
+        <div class="slider-navigation">
+            <div class="nav-btn active"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+            <div class="nav-btn"></div>
+<!--            <div class="nav-btn"></div>-->
+        </div>
+
+        <div class="chatbot-section">
+
+            <div id="chat-circle" class=" btn-raised">
+                <div id="chat-overlay"></div>
+                <i class="material-icons">speaker_phone</i>
+            </div>
+
+            <div class="chat-box">
+                <div class="chat-box-header">
+                    ChatBot
+                    <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+                </div>
+                <div class="chat-box-body">
+                    <div class="chat-box-overlay">
+                    </div>
+                    <div class="chat-logs">
+
+                    </div><!--chat-log -->
+                </div>
+                <div class="chat-input">
+                    <form>
+                        <input type="text" id="chat-input" placeholder="Send a message..." />
+                        <button type="submit" class="chat-submit" id="chat-submit"><i
+                                class="material-icons">send</i></button>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+        <!-- <iframe src="/Code_Red/chatbot/index.html" style="width: 150px;height: 150px;box-shadow: 0 20px 80px rgba(0,0,0,.6);border-radius: 5px;overflow: hidden;border: none;"></iframe> -->
+        </div>
+
+
+    </section>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/js/mainscript.js"></script>
+    <script src="/static/js/popupcontact.js"></script>
+
+</body>
+
+</html>
